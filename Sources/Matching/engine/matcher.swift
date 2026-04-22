@@ -3,6 +3,7 @@ public enum MatchStrategy: String, Sendable, Codable, Hashable, CaseIterable {
     case prefix
     case contains
     case subsequence
+    case fuzzy
 }
 
 public protocol Matcher: Sendable {
