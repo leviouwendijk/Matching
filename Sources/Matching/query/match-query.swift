@@ -1,4 +1,3 @@
-import Foundation
 import Tokens
 
 public struct MatchQuery: Sendable, Codable, Hashable {
@@ -13,13 +12,13 @@ public struct MatchQuery: Sendable, Codable, Hashable {
     ) {
         self.raw = raw
         self.options = options
-        self.normalized = MatchNormalizer.normalize(
+        self.normalized = TokenNormalizer.normalize(
             raw,
             options: options
         )
-        self.tokens = MatchNormalizer.tokenize(
+        self.tokens = QueryTokenizer.tokenize(
             raw,
-            options: options
+            normalization: options
         )
     }
 
