@@ -1,5 +1,5 @@
-public struct ContainsMatcher<Candidate: MatchCandidate>: Matcher {
-    public let strategy: MatchStrategy = .contains
+public struct IdentifierMatcher<Candidate: MatchCandidate>: Matcher {
+    public let strategy: MatchStrategy = .identifier
 
     public init() {}
 
@@ -14,7 +14,7 @@ public struct ContainsMatcher<Candidate: MatchCandidate>: Matcher {
         var fieldResults: [MatchedFieldResult] = []
 
         for field in candidate.allFields where !field.isEmpty {
-            let ranges = MatchComparison.containsRanges(
+            let ranges = MatchComparison.identifierRanges(
                 query.normalized,
                 in: field.text,
                 case: query.options.case
@@ -25,11 +25,11 @@ public struct ContainsMatcher<Candidate: MatchCandidate>: Matcher {
             }
 
             let score = MatchScore(
-                value: 600 * field.weight,
+                value: 700 * field.weight,
                 components: [
                     .init(
-                        name: "contains",
-                        value: 600
+                        name: "identifier",
+                        value: 700
                     ),
                     .init(
                         name: "fieldWeight",

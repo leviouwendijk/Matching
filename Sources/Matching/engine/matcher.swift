@@ -2,6 +2,7 @@ public enum MatchStrategy: String, Sendable, Codable, Hashable, CaseIterable {
     case exact
     case prefix
     case contains
+    case identifier
     case subsequence
     case fuzzy
 }
