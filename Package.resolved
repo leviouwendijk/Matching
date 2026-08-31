@@ -1,67 +1,13 @@
 {
-  "originHash" : "e4c97ca4a3d1d0ffc04c7dd255686cb62ce911b6ec5e1e0071d58d98e4c17f46",
+  "originHash" : "5b2e7b08c87af0544e337204903c97a5570d2f7717c7f587fd26303e0bd829dd",
   "pins" : [
-    {
-      "identity" : "ansi",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/leviouwendijk/ANSI.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "073d9ca7870b688a312608acf14eae6ba052c0d6"
-      }
-    },
-    {
-      "identity" : "difference",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/leviouwendijk/Difference.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "7d295238c789f009fd720f3cf5ca8e730068c0c5"
-      }
-    },
     {
       "identity" : "position",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/leviouwendijk/Position.git",
       "state" : {
         "branch" : "master",
-        "revision" : "70fd78230c3452d9a4471222d64324a2c084351d"
-      }
-    },
-    {
-      "identity" : "primitives",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/leviouwendijk/Primitives.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "7b53326bba4229c0b8c62529dfe0934f6ddedf6c"
-      }
-    },
-    {
-      "identity" : "strings",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/leviouwendijk/Strings",
-      "state" : {
-        "branch" : "master",
-        "revision" : "86a939d7bbb3e25808f88fbcedcee4069a5a5ae1"
-      }
-    },
-    {
-      "identity" : "terminal",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/leviouwendijk/Terminal.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "84324d8ed19685f5a706e84377463ee09694849c"
-      }
-    },
-    {
-      "identity" : "testflows",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/leviouwendijk/TestFlows.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "ef72deb44f924372959189d0c258c5cf7e2ba8ae"
+        "revision" : "c80214283130c1bd4fc1c54dd5f3c574e3e4986c"
       }
     },
     {
@@ -70,7 +16,7 @@
       "location" : "https://github.com/leviouwendijk/Tokens.git",
       "state" : {
         "branch" : "master",
-        "revision" : "6ca52a81000deeb3316b75deded8a3f29e34adfe"
+        "revision" : "4e6c16afcaa81606fa7b2dcd80f9a25965403687"
       }
     }
   ],

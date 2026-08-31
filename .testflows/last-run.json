@@ -1,0 +1,26 @@
+{
+  "failed" : 0,
+  "failed_names" : [
+
+  ],
+  "generated_at" : "2026-08-31T18:40:07Z",
+  "passed" : 1,
+  "results" : [
+    {
+      "display_name" : "matching-direct-text-ranges",
+      "duration_seconds" : 0.0021659135818481445,
+      "name" : "matching-direct-text-ranges",
+      "status" : "passed",
+      "tags" : [
+        "contains",
+        "matching",
+        "position",
+        "subsequence",
+        "text"
+      ]
+    }
+  ],
+  "skipped" : 0,
+  "title" : "Matching flow tests",
+  "total" : 1
+}
