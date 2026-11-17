@@ -1,20 +1,14 @@
 import Matching
-import TestFlows
+import Testing
 import Tokens
 
-extension MatchingFlowSuite {
-    static var directTextMatchingFlow: TestFlow {
-        TestFlow(
-            "matching-direct-text-ranges",
-            tags: [
-                "matching",
-                "text",
-                "position",
-                "contains",
-                "subsequence",
-            ]
+enum MatchingTestSuite {
+    static var testSuite: TestSuite {
+        TestSuite(
+            "matching",
+            title: "Matching tests"
         ) {
-            Step(
+            Test(
                 "contains returns every non-overlapping occurrence using character offsets"
             ) {
                 let result = TextMatcher.match(
@@ -60,7 +54,7 @@ extension MatchingFlowSuite {
                 )
             }
 
-            Step(
+            Test(
                 "case-insensitive contains preserves Unicode character offsets"
             ) {
                 let result = TextMatcher.match(
@@ -89,7 +83,7 @@ extension MatchingFlowSuite {
                 )
             }
 
-            Step(
+            Test(
                 "subsequence exposes fragmented ordered evidence and groups adjacent characters"
             ) {
                 let fragmented = TextMatcher.match(
@@ -125,7 +119,7 @@ extension MatchingFlowSuite {
                 )
             }
 
-            Step(
+            Test(
                 "exact and prefix retain their distinct positional semantics"
             ) {
                 let exact = TextMatcher.match(
@@ -172,7 +166,7 @@ extension MatchingFlowSuite {
                 )
             }
 
-            Step(
+            Test(
                 "identifier matching accepts bounded occurrences and rejects embedded components"
             ) {
                 let result = TextMatcher.match(
@@ -192,7 +186,7 @@ extension MatchingFlowSuite {
                 )
             }
 
-            Step(
+            Test(
                 "multi-query matching retains source query order and independent ranges"
             ) {
                 let results = TextMatcher.match(
@@ -227,7 +221,7 @@ extension MatchingFlowSuite {
                 )
             }
 
-            Step(
+            Test(
                 "empty queries remain explicit no-match results"
             ) {
                 let result = TextMatcher.match(
