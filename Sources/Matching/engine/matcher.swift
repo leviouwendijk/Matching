@@ -5,6 +5,8 @@ public enum MatchStrategy: String, Sendable, Codable, Hashable, CaseIterable {
     case identifier
     case subsequence
     case fuzzy
+    /// A regular expression (ICU syntax); `^` and `$` match at line ends.
+    case regex
 }
 
 public protocol Matcher: Sendable {

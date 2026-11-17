@@ -165,6 +165,39 @@ enum MatchComparison {
         return result
     }
 
+    /// Every match of `pattern` in `candidate`; empty when the pattern
+    /// does not compile (callers that take patterns validate them first).
+    static func regexRanges(
+        _ pattern: String,
+        in candidate: String,
+        `case`: TokenCaseOptions
+    ) -> [MatchRange] {
+        guard let expression = regularExpression(pattern, case: `case`) else {
+            return []
+        }
+        let whole = NSRange(candidate.startIndex..<candidate.endIndex, in: candidate)
+        return expression.matches(in: candidate, range: whole).compactMap { match in
+            guard match.range.length > 0,
+                  let range = Range(match.range, in: candidate)
+            else {
+                return nil
+            }
+            return offsetRange(from: range, in: candidate)
+        }
+    }
+
+    /// The compiled pattern, or nil when it is not a valid expression.
+    static func regularExpression(
+        _ pattern: String,
+        `case`: TokenCaseOptions
+    ) -> NSRegularExpression? {
+        var options: NSRegularExpression.Options = [.anchorsMatchLines]
+        if `case`.sensitivity == .insensitive {
+            options.insert(.caseInsensitive)
+        }
+        return try? NSRegularExpression(pattern: pattern, options: options)
+    }
+
     private static func isIdentifierBounded(
         _ range: Range<String.Index>,
         in candidate: String
