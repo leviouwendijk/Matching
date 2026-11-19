@@ -92,6 +92,22 @@ enum RegexMatchingTestSuite {
                     "matching.regex.ranges.character-offsets"
                 )
             }
+
+            Test("a compiled expression walks offsets forward and returns the text") {
+                let compiled = try Expect.notNil(CompiledRegex("\\d+"), "matching.regex.compiled.compiles")
+                let text = "a1 👋🏽 22 é333"
+                let matches = compiled.matches(in: text)
+                try Expect.equal(matches.map(\.text), ["1", "22", "333"], "matching.regex.compiled.text")
+                try Expect.equal(matches.map(\.range.offsetRange), [1..<2, 5..<7, 9..<12], "matching.regex.compiled.grapheme-offsets")
+                try Expect.isNil(CompiledRegex("a("), "matching.regex.compiled.invalid")
+
+                let behind = try Expect.notNil(CompiledRegex("(?<=(x))y"), "matching.regex.compiled.lookbehind")
+                try Expect.equal(behind.ranges(in: "xy xy", group: .index(1)).map(\.offsetRange), [0..<1, 3..<4], "matching.regex.compiled.group-in-lookbehind")
+
+                let many = String(repeating: "ab12 ", count: 20_000)
+                try Expect.equal(compiled.matches(in: many).count, 20_000, "matching.regex.compiled.many")
+                try Expect.equal(compiled.matches(in: many).last?.range.offsetRange, 99_997..<99_999, "matching.regex.compiled.last-offset")
+            }
         }
     }
 
