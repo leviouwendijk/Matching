@@ -12,6 +12,19 @@ public struct RegexMatch: Sendable, Hashable {
     }
 }
 
+/// A text prepared for many expressions: its UTF-16 form, which ICU reads,
+/// is made once instead of on every match call.
+public struct RegexSubject: @unchecked Sendable {
+    public let text: String
+    let utf16: NSString
+
+    public init(_ text: String) {
+        self.text = text
+        let units = Array(text.utf16)
+        self.utf16 = NSString(characters: units, length: units.count)
+    }
+}
+
 /// A regular expression (ICU) compiled once, for matching many texts.
 /// Matches become character offsets in one forward walk over the text, so
 /// the cost grows with the text, not with text × matches.
@@ -40,12 +53,22 @@ public struct CompiledRegex: @unchecked Sendable {
         in text: String,
         group: RegexGroup = .whole
     ) -> [RegexMatch] {
-        let whole = NSRange(text.startIndex..<text.endIndex, in: text)
+        matches(in: RegexSubject(text), group: group)
+    }
+
+    /// `matches(in:group:)` on a prepared text; prepare it once to run many
+    /// expressions over the same text.
+    public func matches(
+        in subject: RegexSubject,
+        group: RegexGroup = .whole
+    ) -> [RegexMatch] {
+        let text = subject.text
+        let whole = NSRange(location: 0, length: subject.utf16.length)
         var results: [RegexMatch] = []
         // The walk's position: `index` is `offset` characters into the text.
         var index = text.startIndex
         var offset = 0
-        for match in expression.matches(in: text, range: whole) {
+        for match in expression.matches(in: subject.utf16 as String, range: whole) {
             let selected: NSRange
             switch group {
             case .whole:
