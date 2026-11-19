@@ -58,6 +58,40 @@ enum RegexMatchingTestSuite {
                 try Expect.equal(RegexPattern.isValid("a("), false, "matching.regex.invalid")
                 try Expect.equal(RegexPattern.isValid("a\\("), true, "matching.regex.valid")
             }
+
+            Test("ranges report the whole match or a capture group") {
+                let text = "user=sam KEY_A=x1 key_b=yz"
+                try Expect.equal(
+                    RegexPattern.ranges("[a-z_]+=([a-z0-9]+)", in: text).map(\.offsetRange),
+                    [0..<8, 9..<17, 18..<26],
+                    "matching.regex.ranges.whole"
+                )
+                try Expect.equal(
+                    RegexPattern.ranges("[a-z_]+=(?<value>[a-z0-9]+)", in: text, group: .named("value")).map(\.offsetRange),
+                    [5..<8, 15..<17, 24..<26],
+                    "matching.regex.ranges.named"
+                )
+                try Expect.equal(
+                    RegexPattern.ranges("[a-z_]+=([a-z0-9]+)", in: text, group: .index(1)).map(\.offsetRange),
+                    [5..<8, 15..<17, 24..<26],
+                    "matching.regex.ranges.index"
+                )
+                try Expect.equal(
+                    RegexPattern.ranges("(a)|(b)", in: "ab", group: .index(2)).map(\.offsetRange),
+                    [1..<2],
+                    "matching.regex.ranges.unmatched-group-left-out"
+                )
+                try Expect.equal(
+                    RegexPattern.ranges("(a)", in: "a", group: .index(4)),
+                    [],
+                    "matching.regex.ranges.missing-group"
+                )
+                try Expect.equal(
+                    RegexPattern.ranges("é(?<n>\\d)", in: "café é7").map(\.offsetRange),
+                    [5..<7],
+                    "matching.regex.ranges.character-offsets"
+                )
+            }
         }
     }
 

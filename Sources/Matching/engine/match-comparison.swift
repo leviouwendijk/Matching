@@ -170,15 +170,28 @@ enum MatchComparison {
     static func regexRanges(
         _ pattern: String,
         in candidate: String,
-        `case`: TokenCaseOptions
+        `case`: TokenCaseOptions,
+        group: RegexGroup = .whole
     ) -> [MatchRange] {
         guard let expression = regularExpression(pattern, case: `case`) else {
             return []
         }
         let whole = NSRange(candidate.startIndex..<candidate.endIndex, in: candidate)
         return expression.matches(in: candidate, range: whole).compactMap { match in
-            guard match.range.length > 0,
-                  let range = Range(match.range, in: candidate)
+            let selected: NSRange
+            switch group {
+            case .whole:
+                selected = match.range
+            case .index(let index):
+                guard index <= match.numberOfRanges - 1 else { return nil }
+                selected = match.range(at: index)
+            case .named(let name):
+                selected = match.range(withName: name)
+            }
+            // An unmatched optional group has location NSNotFound.
+            guard selected.location != NSNotFound,
+                  selected.length > 0,
+                  let range = Range(selected, in: candidate)
             else {
                 return nil
             }

@@ -65,6 +65,16 @@ public struct RegexMatcher<Candidate: MatchCandidate>: Matcher {
     }
 }
 
+/// Which part of a regular expression match to report.
+public enum RegexGroup: Sendable, Codable, Hashable {
+    /// The whole match.
+    case whole
+    /// A numbered capture group; 0 is the whole match.
+    case index(Int)
+    /// A named capture group, `(?<name>…)`.
+    case named(String)
+}
+
 public enum RegexPattern {
     /// Whether `pattern` compiles as a regular expression.
     public static func isValid(
@@ -75,13 +85,16 @@ public enum RegexPattern {
 
     /// The non-empty ranges `pattern` matches in `text`, in character
     /// offsets; empty when it does not compile. `^` and `$` match at line
-    /// ends.
+    /// ends. `group` reports a capture group instead of the whole match, for
+    /// context a lookbehind cannot hold (`name = (?<value>…)`); matches whose
+    /// group did not take part are left out.
     public static func ranges(
         _ pattern: String,
         in text: String,
-        case: TokenCaseOptions = .defaults
+        case: TokenCaseOptions = .defaults,
+        group: RegexGroup = .whole
     ) -> [MatchRange] {
-        MatchComparison.regexRanges(pattern, in: text, case: `case`)
+        MatchComparison.regexRanges(pattern, in: text, case: `case`, group: group)
     }
 
     /// `text` as a pattern that matches it literally.
