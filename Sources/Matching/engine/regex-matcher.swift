@@ -73,6 +73,17 @@ public enum RegexPattern {
         MatchComparison.regularExpression(pattern, case: .init()) != nil
     }
 
+    /// The non-empty ranges `pattern` matches in `text`, in character
+    /// offsets; empty when it does not compile. `^` and `$` match at line
+    /// ends.
+    public static func ranges(
+        _ pattern: String,
+        in text: String,
+        case: TokenCaseOptions = .defaults
+    ) -> [MatchRange] {
+        MatchComparison.regexRanges(pattern, in: text, case: `case`)
+    }
+
     /// `text` as a pattern that matches it literally.
     public static func escaped(
         _ text: String
