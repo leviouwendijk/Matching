@@ -13,15 +13,10 @@ let package = Package(
             name: "Matching",
             targets: ["Matching"]
         ),
-        .executable(
-            name: "t_matching",
-            targets: ["MatchingTesting"]
-        ),
     ],
     dependencies: [
         .package(url: "https://github.com/leviouwendijk/Tokens.git", branch: "master"),
         .package(url: "https://github.com/leviouwendijk/Position.git", branch: "master"),
-        .package(url: "https://github.com/leviouwendijk/Testing.git", branch: "master"),
     ],
     targets: [
         .target(
@@ -30,15 +25,6 @@ let package = Package(
                 .product(name: "Tokens", package: "Tokens"),
                 .product(name: "Position", package: "Position"),
             ],
-        ),
-        .executableTarget(
-            name: "MatchingTesting",
-            dependencies: [
-                "Matching",
-                .product(name: "Tokens", package: "Tokens"),
-                .product(name: "Testing", package: "Testing"),
-            ],
-            path: "Testing/MatchingTesting"
         ),
     ]
 )
